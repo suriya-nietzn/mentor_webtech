@@ -94,13 +94,6 @@ export default function Login() {
           <p className="auth-switch">
             New to MentorConnect? <Link to="/register" state={location.state}>Create an account</Link>
           </p>
-          <div className="demo-box">
-            <strong>Demo accounts</strong> (after running <code>npm run seed</code>, demo use only):
-            <br />
-            Student: <code>student1@example.com</code> &middot; Mentor: <code>mentor2@example.com</code>
-            <br />
-            Password: <code>Demo@12345</code>
-          </div>
         </div>
       </div>
     </div>
