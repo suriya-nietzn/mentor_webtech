@@ -221,4 +221,59 @@ export const students = [
       learningGoals: 'Prepare for campus placements and improve interview confidence.',
     },
   },
+  {
+    name: 'Kavya Reddy',
+    department: 'Computer Science',
+    college: 'MentorConnect Demo University',
+    studentProfile: {
+      yearOfStudy: 3,
+      skills: ['Python', 'Linux', 'Networking'],
+      careerInterests: ['Cybersecurity', 'Higher Studies'],
+      learningGoals: 'Get comfortable with CTF challenges and plan a master’s in information security.',
+    },
+  },
+  {
+    name: 'Aditya Kumar',
+    department: 'Information Technology',
+    college: 'MentorConnect Demo University',
+    studentProfile: {
+      yearOfStudy: 4,
+      skills: ['Java', 'Docker', 'Git'],
+      careerInterests: ['Cloud & DevOps', 'Cybersecurity'],
+      learningGoals: 'Earn a cloud associate certification and deploy my final-year project with CI/CD.',
+    },
+  },
+  {
+    name: 'Sneha Mathew',
+    department: 'Artificial Intelligence & Data Science',
+    college: 'MentorConnect Demo University',
+    studentProfile: {
+      yearOfStudy: 2,
+      skills: ['Python', 'NumPy', 'Statistics'],
+      careerInterests: ['AI/ML', 'Higher Studies'],
+      learningGoals: 'Build my first deep learning project and understand how research papers are written.',
+    },
+  },
+  {
+    name: 'Harish Balaji',
+    department: 'Mechanical Engineering',
+    college: 'MentorConnect Demo University',
+    studentProfile: {
+      yearOfStudy: 3,
+      skills: ['C', 'MATLAB'],
+      careerInterests: ['Programming', 'Career Guidance'],
+      learningGoals: 'Switch from mechanical engineering to a software role through projects and practice.',
+    },
+  },
+  {
+    name: 'Lakshmi Prabhu',
+    department: 'Computer Science',
+    college: 'MentorConnect Demo University',
+    studentProfile: {
+      yearOfStudy: 1,
+      skills: ['HTML', 'CSS'],
+      careerInterests: ['Web Development', 'Communication Skills'],
+      learningGoals: 'Learn JavaScript properly, build a portfolio site, and speak up confidently in class.',
+    },
+  },
 ];

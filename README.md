@@ -107,6 +107,11 @@ After `npm run seed`, these **fictional** accounts exist. Every one uses the pas
 | Student | `student1@example.com` | Aisha. Has an accepted mentorship with Karthik (mentor2), a pending request, an upcoming session and messages. |
 | Student | `student2@example.com` | Rohan. Has one accepted and one declined request. |
 | Student | `student3@example.com` | Nila. Has a completed mentorship (with a review) and a pending request. |
+| Student | `student4@example.com` | Kavya. Cybersecurity; a completed, reviewed mentorship and a pending higher-studies request. |
+| Student | `student5@example.com` | Aditya. Cloud & security; an accepted mentorship with sessions, two reviews given, a pending request. |
+| Student | `student6@example.com` | Sneha. AI/ML; an upcoming session, a completed mentorship **without a review yet** (try leaving one), a declined request. |
+| Student | `student7@example.com` | Harish. Mechanical student moving to software; two reviews given, one declined request. |
+| Student | `student8@example.com` | Lakshmi. First year; accepted mentorship with an upcoming and a cancelled session, a pending request. |
 | Mentor | `mentor2@example.com` | Karthik Menon. Has an active student, sessions and messages. |
 | Mentor | `mentor1@example.com` ... `mentor10@example.com` | 10 mentors across 6 departments. `mentor8` (Sanjay) is "not accepting students". |
 

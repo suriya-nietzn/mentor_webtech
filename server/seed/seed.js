@@ -40,12 +40,19 @@ async function run() {
   const studentDocs = await User.insertMany(
     students.map((s, i) => ({ ...s, email: `student${i + 1}@example.com`, role: 'student', passwordHash, isSample: true }))
   );
-  const [ananya, karthik, priya, rahul, meera, arjun] = mentorDocs;
-  const [aisha, rohan, nila] = studentDocs;
+  const [ananya, karthik, priya, rahul, meera, arjun, divya, sanjay, fatima, vikram] = mentorDocs;
+  const [aisha, rohan, nila, kavya, aditya, sneha, harish, lakshmi] = studentDocs;
 
-  // Give student1 a couple of recently viewed mentors so the dashboard has something to show.
-  aisha.recentlyViewedMentors = [karthik._id, ananya._id];
-  await aisha.save();
+  // Give students a few recently viewed mentors so their dashboards have something to show.
+  const viewed = [
+    [aisha, [karthik, ananya]],
+    [kavya, [fatima, vikram, karthik]],
+    [sneha, [rahul, vikram]],
+    [lakshmi, [karthik, meera, ananya]],
+  ];
+  await Promise.all(
+    viewed.map(([student, list]) => User.updateOne({ _id: student._id }, { recentlyViewedMentors: list.map((m) => m._id) }))
+  );
 
   // 3. Requests in every status.
   const req = (student, mentor, category, goals, status, extra = {}) => ({
@@ -71,12 +78,68 @@ async function run() {
     req(nila, meera, 'Communication Skills', 'I want to become more confident presenting my final-year project to a panel.', 'pending'),
   ]);
 
+  const [lakshmiMeera, snehaRahul, adityaFatima] = await MentorshipRequest.insertMany([
+    req(lakshmi, meera, 'Communication Skills', 'I get nervous speaking in class and want to practise short talks and group discussions.', 'accepted', { mentorResponse: 'Of course. We will start with two-minute talks.' }),
+    req(sneha, rahul, 'AI/ML', 'I want to build an image classifier from scratch and understand each step of training.', 'accepted', { mentorResponse: 'Sounds fun. Install PyTorch before our first call.' }),
+    req(aditya, fatima, 'Cybersecurity', 'I want to learn secure coding so my final-year project passes a basic security review.', 'accepted', { mentorResponse: 'Great timing. Share your repository and we will threat-model it.' }),
+    req(kavya, vikram, 'Higher Studies', 'I am planning a master’s abroad and need help shortlisting universities and drafting my SOP.', 'pending'),
+    req(aditya, divya, 'Cloud & DevOps', 'I want to connect an IoT sensor project to a cloud dashboard and automate deployments.', 'pending'),
+    req(lakshmi, ananya, 'Programming', 'I am a first-year student and want a structured plan to get good at problem solving in C++.', 'pending'),
+    req(sneha, karthik, 'Web Development', 'I want to build a web front end for my machine learning model so others can try it.', 'rejected', { mentorResponse: 'My weekends are full right now. Please try again next semester.' }),
+    req(harish, rahul, 'AI/ML', 'I want to apply machine learning to predictive maintenance data from my mechanical lab.', 'rejected', { mentorResponse: 'Please build Python basics first; Divya or Ananya would be a better start.' }),
+  ]);
+
+  // Finished mentorships. All but one have a review, giving mentors a realistic spread of ratings.
+  const finishedPlan = [
+    { student: kavya, mentor: fatima, category: 'Cybersecurity', daysAgo: 30, session: 'CTF walkthrough: web challenges', goals: 'I want to start solving CTF challenges and understand common web vulnerabilities.', rating: 5, comment: 'Explained every vulnerability with a live demo. I solved my first CTF challenge alone after two sessions.' },
+    { student: aditya, mentor: sanjay, category: 'Cloud & DevOps', daysAgo: 40, session: 'Deploying with Docker and GitHub Actions', goals: 'I want to containerise my project and set up a simple CI/CD pipeline before placements.', rating: 4, comment: 'Very practical. My project now deploys automatically. I would have liked a bit more time on AWS basics.' },
+    { student: sneha, mentor: vikram, category: 'Higher Studies', daysAgo: 25, session: 'How to read a research paper', goals: 'I want to understand how to read research papers and whether a research career suits me.', rating: 5, comment: 'Patient and encouraging. The three-pass reading method changed how I study papers.' },
+    { student: harish, mentor: divya, category: 'Programming', daysAgo: 18, session: 'C to Python: first automation script', goals: 'I want to move from mechanical engineering to software and need a programming roadmap.', rating: 4, comment: 'Gave me a clear roadmap and weekly tasks. Sessions sometimes ran short, but the feedback was useful.' },
+    { student: lakshmi, mentor: karthik, category: 'Web Development', daysAgo: 35, session: 'Build your first portfolio page', goals: 'I want to build and publish my first personal portfolio website using HTML, CSS and JavaScript.', rating: 5, comment: 'My portfolio site is live! Karthik reviewed my code line by line and explained why each change mattered.' },
+    { student: rohan, mentor: ananya, category: 'Interview Preparation', daysAgo: 22, session: 'Arrays and hashing practice', goals: 'I want to practise coding interview questions on arrays, strings and hashing.', rating: 3, comment: 'Good problem sets, but the pace was fast for a second-year student. Worth it if you already know the basics.' },
+    { student: aisha, mentor: meera, category: 'Communication Skills', daysAgo: 45, session: 'Presentation dry run', goals: 'I want to present my mini project clearly and handle questions from the evaluation panel.', rating: 4, comment: 'Recording my practice talks was awkward at first but really helped. My final presentation went well.' },
+    { student: harish, mentor: arjun, category: 'Interview Preparation', daysAgo: 15, session: 'Resume review and mock interview', goals: 'I want my resume to show my software projects even though my degree is in mechanical engineering.', rating: 4, comment: 'Honest feedback on my resume. The mock interview showed me exactly what to improve.' },
+    { student: aditya, mentor: rahul, category: 'AI/ML', daysAgo: 28, session: 'Intro to neural networks', goals: 'I want a quick introduction to machine learning concepts to decide if I should take the elective.', rating: 2, comment: 'Knowledgeable mentor, but two sessions were rescheduled at short notice and we did not finish the plan.' },
+    { student: sneha, mentor: priya, category: 'Data Science', daysAgo: 12, session: 'EDA on a public dataset', goals: 'I want to complete one exploratory data analysis project and present the findings clearly.' },
+  ];
+  const finishedDocs = await MentorshipRequest.insertMany(
+    finishedPlan.map((p) =>
+      req(p.student, p.mentor, p.category, p.goals, 'completed', {
+        mentorResponse: 'Accepted. Looking forward to working with you.',
+        respondedAt: daysFromNow(-p.daysAgo - 10),
+        completedAt: daysFromNow(-p.daysAgo + 1),
+        ...(p.rating
+          ? { review: { rating: p.rating, comment: `${p.comment} Sample review (demo content).`, createdAt: daysFromNow(-p.daysAgo + 2) } }
+          : {}),
+      })
+    )
+  );
+
   // 4. Sessions: upcoming, completed and cancelled.
   await Session.insertMany([
     { request: aishaKarthik._id, student: aisha._id, mentor: karthik._id, title: 'Project kickoff: MERN app plan', description: 'Review the feature list and agree on the first milestone.', scheduledAt: daysFromNow(3), durationMinutes: 60, meetingUrl: 'https://meet.example.com/mentorconnect-demo-1', status: 'scheduled', createdBy: karthik._id, isSample: true },
     { request: aishaKarthik._id, student: aisha._id, mentor: karthik._id, title: 'Intro call', description: 'Getting to know each other and setting goals.', scheduledAt: daysFromNow(-10), durationMinutes: 30, status: 'completed', createdBy: karthik._id, isSample: true },
     { request: rohanPriya._id, student: rohan._id, mentor: priya._id, title: 'Choosing a dataset', description: 'Shortlist datasets and define the analysis question.', scheduledAt: daysFromNow(5, 19), durationMinutes: 45, status: 'scheduled', createdBy: rohan._id, isSample: true },
     { request: nilaArjun._id, student: nila._id, mentor: arjun._id, title: 'Mock HR interview #1', description: 'Full-length mock interview with feedback.', scheduledAt: daysFromNow(-8, 11), durationMinutes: 60, status: 'completed', createdBy: arjun._id, isSample: true },
+    { request: rohanPriya._id, student: rohan._id, mentor: priya._id, title: 'Statistics refresher', description: 'Mean, variance and distributions before the project starts.', scheduledAt: daysFromNow(-2, 19), durationMinutes: 45, status: 'cancelled', cancelledBy: priya._id, createdBy: priya._id, isSample: true },
+    { request: lakshmiMeera._id, student: lakshmi._id, mentor: meera._id, title: 'Two-minute talk practice', description: 'Short talk on a topic of your choice, recorded and reviewed.', scheduledAt: daysFromNow(2, 14), durationMinutes: 30, meetingUrl: 'https://meet.example.com/mentorconnect-demo-2', status: 'scheduled', createdBy: meera._id, isSample: true },
+    { request: lakshmiMeera._id, student: lakshmi._id, mentor: meera._id, title: 'Group discussion basics', description: 'How to enter a discussion and summarise points.', scheduledAt: daysFromNow(-4, 15), durationMinutes: 45, status: 'cancelled', cancelledBy: lakshmi._id, createdBy: lakshmi._id, isSample: true },
+    { request: snehaRahul._id, student: sneha._id, mentor: rahul._id, title: 'Training loop walkthrough', description: 'Write a PyTorch training loop for a small image dataset.', scheduledAt: daysFromNow(6, 18), durationMinutes: 60, meetingUrl: 'https://meet.example.com/mentorconnect-demo-3', status: 'scheduled', createdBy: sneha._id, isSample: true },
+    { request: snehaRahul._id, student: sneha._id, mentor: rahul._id, title: 'Project scoping', description: 'Pick a dataset and agree on a baseline model.', scheduledAt: daysFromNow(-5, 18), durationMinutes: 45, status: 'completed', createdBy: rahul._id, isSample: true },
+    { request: adityaFatima._id, student: aditya._id, mentor: fatima._id, title: 'Secure code review: login flow', description: 'Review password storage, sessions and input validation.', scheduledAt: daysFromNow(9, 18), durationMinutes: 60, meetingUrl: 'https://meet.example.com/mentorconnect-demo-4', status: 'scheduled', createdBy: fatima._id, isSample: true },
+    { request: adityaFatima._id, student: aditya._id, mentor: fatima._id, title: 'Threat modelling the project', description: 'List assets, entry points and the most likely attacks.', scheduledAt: daysFromNow(-2, 18), durationMinutes: 60, status: 'completed', createdBy: fatima._id, isSample: true },
+    ...finishedDocs.map((r, i) => ({
+      request: r._id,
+      student: r.student,
+      mentor: r.mentor,
+      title: finishedPlan[i].session,
+      description: 'Hands-on session with follow-up tasks.',
+      scheduledAt: daysFromNow(-finishedPlan[i].daysAgo, 17),
+      durationMinutes: 60,
+      status: 'completed',
+      createdBy: r.mentor,
+      isSample: true,
+    })),
   ]);
 
   // 5. A short conversation between a connected pair.
@@ -85,12 +148,30 @@ async function run() {
     { sender: aisha._id, receiver: karthik._id, text: 'Hi Karthik, thanks for accepting! I have shared my project idea in the session notes.', read: true, createdAt: t(300), isSample: true },
     { sender: karthik._id, receiver: aisha._id, text: 'Looks good. Before Thursday, please sketch the main screens on paper.', read: false, createdAt: t(240), isSample: true },
     { sender: rohan._id, receiver: priya._id, text: 'Hello! Is a Kaggle dataset okay for the first project?', read: false, createdAt: t(60), isSample: true },
+    { sender: priya._id, receiver: rohan._id, text: 'Sorry, I had to cancel our statistics session. Can we do the same time next week?', read: true, createdAt: t(2800), isSample: true },
+    { sender: lakshmi._id, receiver: meera._id, text: 'Ma’am, can I pick "my favourite app" as the topic for my two-minute talk?', read: true, createdAt: t(1500), isSample: true },
+    { sender: meera._id, receiver: lakshmi._id, text: 'Yes, that works well. Keep it to three points and practise once with a timer.', read: false, createdAt: t(1400), isSample: true },
+    { sender: sneha._id, receiver: rahul._id, text: 'I have picked the flowers dataset for the classifier. Should I resize the images first?', read: true, createdAt: t(900), isSample: true },
+    { sender: rahul._id, receiver: sneha._id, text: 'Yes, 128x128 is fine to start. We will add augmentation later.', read: true, createdAt: t(840), isSample: true },
+    { sender: sneha._id, receiver: rahul._id, text: 'Done! Training loss is going down. See you on Friday.', read: false, createdAt: t(120), isSample: true },
+    { sender: aditya._id, receiver: fatima._id, text: 'I have shared my repository link. The login code is in the auth folder.', read: true, createdAt: t(3000), isSample: true },
+    { sender: fatima._id, receiver: aditya._id, text: 'Thanks. Before our next session, read the OWASP cheat sheet on password storage.', read: false, createdAt: t(2900), isSample: true },
+    { sender: kavya._id, receiver: fatima._id, text: 'Thank you for the CTF sessions! I placed in the top 20 at the college contest.', read: true, createdAt: t(20000), isSample: true },
   ]);
 
-  console.log('[seed] Inserted %d mentors, %d students, 6 requests, 4 sessions, 3 messages', mentorDocs.length, studentDocs.length);
+  // Summary: how many sample records each collection now holds.
+  const [users, requests, sessions, messages, reviews] = await Promise.all([
+    User.countDocuments({ isSample: true }),
+    MentorshipRequest.countDocuments({ isSample: true }),
+    Session.countDocuments({ isSample: true }),
+    Message.countDocuments({ isSample: true }),
+    MentorshipRequest.countDocuments({ isSample: true, 'review.rating': { $exists: true } }),
+  ]);
+  console.log('[seed] Sample records: %d users (%d mentors, %d students), %d requests, %d sessions, %d reviews, %d messages',
+    users, mentorDocs.length, studentDocs.length, requests, sessions, reviews, messages);
   console.log('\n================  DEMO ACCOUNTS (demo only, not real people)  ================');
   console.log(`  Password for every demo account: ${DEMO_PASSWORD}`);
-  console.log('  Students: student1@example.com (Aisha), student2@example.com (Rohan), student3@example.com (Nila)');
+  console.log('  Students: student1@example.com ... student8@example.com  (student1 = Aisha, has an accepted mentor)');
   console.log('  Mentors : mentor1@example.com ... mentor10@example.com  (mentor2 = Karthik, has an accepted student)');
   console.log('===============================================================================\n');
 }
