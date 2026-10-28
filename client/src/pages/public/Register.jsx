@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import { BookOpen, Briefcase, CalendarCheck, GraduationCap, Users } from 'lucide-react';
+import { Briefcase, GraduationCap } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext.jsx';
 import { getErrorMessage, getFieldErrors } from '../../services/api.js';
 import { Input, DepartmentInput, PasswordInput, Select, SkillsInput, FormAlert } from '../../components/ui/FormField.jsx';
@@ -95,30 +95,7 @@ export default function Register() {
 
   return (
     <div className="auth-page container">
-      <div className="auth-wrap">
-        <aside className="auth-aside" aria-label="Why join">
-          <h2>{role === 'mentor' ? 'Share what you know.' : 'Grow with guidance.'}</h2>
-          <p>
-            {role === 'mentor'
-              ? 'Help students turn their questions into progress. You stay in control of who you mentor and when.'
-              : 'Find a mentor who has walked the path you are on, and get help that is specific to your goals.'}
-          </p>
-          <ul>
-            <li>
-              <Users aria-hidden="true" />
-              <span><strong>Real connections</strong>Every request is reviewed by the mentor personally.</span>
-            </li>
-            <li>
-              <CalendarCheck aria-hidden="true" />
-              <span><strong>Organised sessions</strong>Schedule, reschedule and track sessions in one place.</span>
-            </li>
-            <li>
-              <BookOpen aria-hidden="true" />
-              <span><strong>Focused learning</strong>Set clear goals and see your progress over time.</span>
-            </li>
-          </ul>
-        </aside>
-
+      <div className="auth-wrap medium">
         <div className="card auth-card">
           <h1>Create your account</h1>
           <p>It takes about a minute. Fields marked * are required.</p>
