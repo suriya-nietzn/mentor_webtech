@@ -42,6 +42,11 @@ export const dashboardService = {
   mentor: () => unwrap(api.get('/dashboard/mentor')),
 };
 
+export const adminService = {
+  overview: () => unwrap(api.get('/admin/overview')),
+  users: (params) => unwrap(api.get('/admin/users', { params })),
+};
+
 export const miscService = {
   stats: () => unwrap(api.get('/stats/public')),
   // Returns the full response so the caller can check for a real 201.

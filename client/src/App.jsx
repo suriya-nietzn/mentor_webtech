@@ -26,6 +26,9 @@ const MentorStudents = lazy(() => import('./pages/mentor/MentorStudents.jsx'));
 const MentorAvailability = lazy(() => import('./pages/mentor/MentorAvailability.jsx'));
 
 // Shared by both roles (each role gets its own URL).
+const AdminDashboard = lazy(() => import('./pages/admin/AdminDashboard.jsx'));
+const AdminUsers = lazy(() => import('./pages/admin/AdminUsers.jsx'));
+
 const Sessions = lazy(() => import('./pages/shared/Sessions.jsx'));
 const SessionDetails = lazy(() => import('./pages/shared/SessionDetails.jsx'));
 const Messages = lazy(() => import('./pages/shared/Messages.jsx'));
@@ -81,6 +84,15 @@ export default function App() {
             <Route path="availability" element={<MentorAvailability />} />
             <Route path="settings" element={<Settings />} />
             <Route index element={<MentorDashboard />} />
+            <Route path="*" element={<NotFound inDashboard />} />
+          </Route>
+
+          <Route path="/admin" element={guard('admin', <DashboardLayout />)}>
+            <Route path="dashboard" element={<AdminDashboard />} />
+            <Route path="students" element={<AdminUsers role="student" />} />
+            <Route path="mentors" element={<AdminUsers role="mentor" />} />
+            <Route path="settings" element={<Settings />} />
+            <Route index element={<AdminDashboard />} />
             <Route path="*" element={<NotFound inDashboard />} />
           </Route>
         </Routes>

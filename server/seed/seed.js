@@ -40,6 +40,17 @@ async function run() {
   const studentDocs = await User.insertMany(
     students.map((s, i) => ({ ...s, email: `student${i + 1}@example.com`, role: 'student', passwordHash, isSample: true }))
   );
+  // One admin account. Set SEED_ADMIN_PASSWORD in .env to give it its own password.
+  await User.create({
+    name: 'MentorConnect Admin',
+    email: 'admin@example.com',
+    role: 'admin',
+    college: 'MentorConnect Demo University',
+    department: 'Administration',
+    passwordHash: process.env.SEED_ADMIN_PASSWORD ? await bcrypt.hash(process.env.SEED_ADMIN_PASSWORD, 12) : passwordHash,
+    isSample: true,
+  });
+
   const [ananya, karthik, priya, rahul, meera, arjun, divya, sanjay, fatima, vikram, lavanya, joseph] = mentorDocs;
   const [aisha, rohan, nila, kavya, aditya, sneha, harish, lakshmi, deepak] = studentDocs;
 
@@ -181,10 +192,11 @@ async function run() {
     Message.countDocuments({ isSample: true }),
     MentorshipRequest.countDocuments({ isSample: true, 'review.rating': { $exists: true } }),
   ]);
-  console.log('[seed] Sample records: %d users (%d mentors, %d students), %d requests, %d sessions, %d reviews, %d messages',
+  console.log('[seed] Sample records: %d users (%d mentors, %d students, 1 admin), %d requests, %d sessions, %d reviews, %d messages',
     users, mentorDocs.length, studentDocs.length, requests, sessions, reviews, messages);
   console.log('\n================  DEMO ACCOUNTS (demo only, not real people)  ================');
   console.log(`  Password for every demo account: ${DEMO_PASSWORD}`);
+  console.log(`  Admin   : admin@example.com${process.env.SEED_ADMIN_PASSWORD ? ' (password from SEED_ADMIN_PASSWORD)' : ''}`);
   console.log('  Students: student1@example.com ... student9@example.com  (student1 = Aisha, has an accepted mentor)');
   console.log('  Mentors : mentor1@example.com ... mentor12@example.com  (mentor2 = Karthik, has an accepted student)');
   console.log('===============================================================================\n');

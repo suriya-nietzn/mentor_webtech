@@ -16,6 +16,7 @@ import requestRoutes from './routes/requestRoutes.js';
 import sessionRoutes from './routes/sessionRoutes.js';
 import messageRoutes from './routes/messageRoutes.js';
 import dashboardRoutes from './routes/dashboardRoutes.js';
+import adminRoutes from './routes/adminRoutes.js';
 
 const app = express();
 
@@ -57,6 +58,7 @@ app.use('/api/requests', requestRoutes);
 app.use('/api/sessions', sessionRoutes);
 app.use('/api/messages', messageRoutes);
 app.use('/api/dashboard', dashboardRoutes);
+app.use('/api/admin', adminRoutes);
 app.use('/api', miscRoutes);
 
 app.use('/api', notFound);

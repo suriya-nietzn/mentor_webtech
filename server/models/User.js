@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
-import { ROLES, CATEGORIES, WEEK_DAYS } from '../utils/constants.js';
+import { ALL_ROLES, CATEGORIES, WEEK_DAYS } from '../utils/constants.js';
 
 const { Schema } = mongoose;
 
@@ -67,7 +67,7 @@ const userSchema = new Schema(
     },
     // select: false means the hash is never loaded unless a query asks for it explicitly.
     passwordHash: { type: String, required: true, select: false },
-    role: { type: String, enum: ROLES, required: true },
+    role: { type: String, enum: ALL_ROLES, required: true },
     college: { type: String, trim: true, maxlength: 160, default: '' },
     department: { type: String, trim: true, maxlength: 120, default: '' },
     avatarUrl: { type: String, trim: true, maxlength: 500, default: '' },

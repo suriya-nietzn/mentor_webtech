@@ -104,6 +104,7 @@ After `npm run seed`, these **fictional** accounts exist. Every one uses the pas
 
 | Role | Email | Notes |
 |---|---|---|
+| Admin | `admin@example.com` | Sees every student and mentor (with emails and request counts) at `/admin/dashboard`. Admins cannot be created by sign-up. Set `SEED_ADMIN_PASSWORD` in `server/.env` to give it its own password. |
 | Student | `student1@example.com` | Aisha. Has an accepted mentorship with Karthik (mentor2), a pending request, an upcoming session and messages. |
 | Student | `student2@example.com` | Rohan. Has one accepted and one declined request. |
 | Student | `student3@example.com` | Nila. Has a completed mentorship (with a review) and a pending request. |

@@ -25,4 +25,5 @@ export const SESSION_STATUS = {
   cancelled: { label: 'Cancelled', tone: 'danger' },
 };
 
-export const dashboardPath = (role) => (role === 'mentor' ? '/mentor/dashboard' : '/student/dashboard');
+export const dashboardPath = (role) =>
+  role === 'admin' ? '/admin/dashboard' : role === 'mentor' ? '/mentor/dashboard' : '/student/dashboard';

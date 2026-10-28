@@ -31,7 +31,15 @@ const NAV = {
     { to: '/mentor/availability', label: 'Availability', icon: Clock },
     { to: '/mentor/settings', label: 'Settings', icon: Settings },
   ],
+  admin: [
+    { to: '/admin/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+    { to: '/admin/students', label: 'All Students', icon: GraduationCap },
+    { to: '/admin/mentors', label: 'All Mentors', icon: Users },
+    { to: '/admin/settings', label: 'Settings', icon: Settings },
+  ],
 };
+
+const WORKSPACE = { student: 'Student workspace', mentor: 'Mentor workspace', admin: 'Admin workspace' };
 
 const COLLAPSE_KEY = 'mc.sidebarCollapsed';
 
@@ -63,6 +71,7 @@ export default function DashboardLayout() {
 
   // Unread message count for the sidebar badge; refreshed every 30s and on page change.
   useEffect(() => {
+    if (user.role === 'admin') return undefined; // admins have no inbox
     let active = true;
     const load = () =>
       messageService
@@ -155,7 +164,7 @@ export default function DashboardLayout() {
           </button>
           <div className="dash-role">
             <GraduationCap aria-hidden="true" />
-            {user.role === 'mentor' ? 'Mentor workspace' : 'Student workspace'}
+            {WORKSPACE[user.role]}
           </div>
           <div className="dash-user">
             <div className="dash-user-text">
