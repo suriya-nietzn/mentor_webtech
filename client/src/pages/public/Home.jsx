@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import {
-  ArrowRight, BarChart3, Brain, BriefcaseBusiness, CalendarCheck, CheckCircle2, Cloud, Code2, Globe,
-  GraduationCap, Handshake, Megaphone, MessageCircleQuestion, Quote, ShieldCheck, Users,
+  ArrowRight, BarChart3, Brain, CalendarCheck, CheckCircle2, Cloud, Code2, Globe,
+  GraduationCap, Handshake, Megaphone, Quote, ShieldCheck, Users,
 } from 'lucide-react';
 import Button from '../../components/ui/Button.jsx';
 import Avatar from '../../components/ui/Avatar.jsx';
@@ -21,12 +21,9 @@ const CATEGORY_ICONS = {
   'Web Development': Globe,
   'Data Science': BarChart3,
   'AI/ML': Brain,
-  'Career Guidance': BriefcaseBusiness,
   'Communication Skills': Megaphone,
-  'Interview Preparation': MessageCircleQuestion,
   'Cloud & DevOps': Cloud,
   Cybersecurity: ShieldCheck,
-  'Higher Studies': GraduationCap,
 };
 
 // Fictional quotes, clearly labelled as demo content on the page.

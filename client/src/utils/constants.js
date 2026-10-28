@@ -4,12 +4,9 @@ export const CATEGORIES = [
   'Web Development',
   'Data Science',
   'AI/ML',
-  'Career Guidance',
   'Communication Skills',
-  'Interview Preparation',
   'Cloud & DevOps',
   'Cybersecurity',
-  'Higher Studies',
 ];
 
 export const WEEK_DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
