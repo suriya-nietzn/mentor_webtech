@@ -6,13 +6,12 @@ import {
 import Button from '../../components/ui/Button.jsx';
 import Avatar from '../../components/ui/Avatar.jsx';
 import { StatCard, Skeleton } from '../../components/ui/Misc.jsx';
-import { EmptyState, ErrorState } from '../../components/ui/States.jsx';
-import MentorCard, { MentorCardSkeleton } from '../../components/mentors/MentorCard.jsx';
+import { ErrorState } from '../../components/ui/States.jsx';
 import HowItWorksSteps from '../../components/mentors/HowItWorksSteps.jsx';
 import HeroIllustration from '../../components/layout/HeroIllustration.jsx';
 import useFetch from '../../hooks/useFetch.js';
 import useDocumentTitle from '../../hooks/useDocumentTitle.js';
-import { miscService, mentorService } from '../../services/resources.js';
+import { miscService } from '../../services/resources.js';
 import { CATEGORIES } from '../../utils/constants.js';
 import './Home.css';
 
@@ -76,45 +75,6 @@ function LiveStats() {
   );
 }
 
-function FeaturedMentors() {
-  const { data, loading, error, reload } = useFetch(
-    () => mentorService.list({ sort: 'experience', order: 'desc', limit: 3 }),
-    []
-  );
-  return (
-    <section className="section section-alt" aria-labelledby="featured-title">
-      <div className="container">
-        <div className="section-header">
-          <span className="eyebrow">Featured mentors</span>
-          <h2 id="featured-title">Learn from people who have done it</h2>
-          <p>Experienced mentors across programming, data, careers and communication.</p>
-        </div>
-        {error ? (
-          <ErrorState message={error} onRetry={reload} />
-        ) : loading ? (
-          <div className="grid-3">{[1, 2, 3].map((i) => <MentorCardSkeleton key={i} />)}</div>
-        ) : data.mentors.length === 0 ? (
-          <EmptyState
-            icon={Users}
-            title="No mentors yet"
-            message="Mentors will appear here once they join. Run the seed script to load demo mentors."
-            action={<Button to="/register?role=mentor" variant="primary" size="sm">Become a mentor</Button>}
-          />
-        ) : (
-          <div className="grid-3">
-            {data.mentors.map((m) => <MentorCard key={m._id} mentor={m} />)}
-          </div>
-        )}
-        <div className="section-actions">
-          <Button to="/mentors" variant="outline">
-            Browse all mentors <ArrowRight aria-hidden="true" />
-          </Button>
-        </div>
-      </div>
-    </section>
-  );
-}
-
 export default function Home() {
   useDocumentTitle('');
   return (
@@ -149,8 +109,6 @@ export default function Home() {
       </section>
 
       <LiveStats />
-
-      <FeaturedMentors />
 
       <section className="section" id="how-it-works" aria-labelledby="how-title">
         <div className="container">
