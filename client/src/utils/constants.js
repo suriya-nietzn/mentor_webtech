@@ -7,6 +7,7 @@ export const CATEGORIES = [
   'Communication Skills',
   'Cloud & DevOps',
   'Cybersecurity',
+  'Mathematics',
 ];
 
 export const WEEK_DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];

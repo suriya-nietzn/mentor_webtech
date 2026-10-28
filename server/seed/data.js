@@ -185,6 +185,43 @@ export const mentors = [
       mentoringApproach: 'Read widely, write early, and ask small precise questions.',
     },
   },
+  {
+    name: 'Dr. Lavanya Subramanian',
+    department: 'Mathematics',
+    college: 'MentorConnect Demo University',
+    mentorProfile: {
+      title: 'Associate Professor, Applied Mathematics',
+      bio: 'I teach engineering mathematics and linear algebra, and I enjoy showing students where the formulas come from. I help students who find maths intimidating build confidence one concept at a time.',
+      skills: ['Calculus', 'Linear Algebra', 'Differential Equations', 'Discrete Mathematics', 'MATLAB'],
+      expertise: ['Engineering mathematics', 'Exam preparation', 'Maths for computer science'],
+      yearsOfExperience: 13,
+      education: [
+        { degree: 'Ph.D. Applied Mathematics', institution: 'Southern Institute of Technology', year: '2013' },
+        { degree: 'M.Sc. Mathematics', institution: 'Lakeside University', year: '2008' },
+      ],
+      workExperience: [{ role: 'Associate Professor', organization: 'MentorConnect Demo University', period: '2014 - present', description: 'Teaches calculus and linear algebra; runs the maths help desk.' }],
+      availability: { days: ['Mon', 'Thu'], timeNotes: '3:00 PM - 5:00 PM IST', isAcceptingStudents: true },
+      categories: ['Mathematics', 'Data Science'],
+      mentoringApproach: 'Understand the idea first, then the formula, then practise until it feels easy.',
+    },
+  },
+  {
+    name: 'Joseph Abraham',
+    department: 'Mathematics',
+    college: 'MentorConnect Demo University',
+    mentorProfile: {
+      title: 'Quantitative Analyst',
+      bio: 'I use probability, statistics and optimisation every day in finance. I mentor students who want to see how university maths is applied in data science, machine learning and quantitative roles.',
+      skills: ['Probability', 'Statistics', 'Optimisation', 'Numerical Methods', 'Python'],
+      expertise: ['Maths for machine learning', 'Probability puzzles', 'Quantitative careers'],
+      yearsOfExperience: 9,
+      education: [{ degree: 'M.Sc. Mathematics & Computing', institution: 'Hillview College of Engineering', year: '2015' }],
+      workExperience: [{ role: 'Quantitative Analyst', organization: 'Keystone Capital (fictional)', period: '2017 - present', description: 'Builds risk and pricing models.' }],
+      availability: { days: ['Wed', 'Sat'], timeNotes: '7:00 PM - 8:30 PM IST', isAcceptingStudents: true },
+      categories: ['Mathematics', 'AI/ML'],
+      mentoringApproach: 'Every concept gets a real example and a small coding exercise.',
+    },
+  },
 ];
 
 export const students = [
@@ -274,6 +311,17 @@ export const students = [
       skills: ['HTML', 'CSS'],
       careerInterests: ['Web Development', 'Communication Skills'],
       learningGoals: 'Learn JavaScript properly, build a portfolio site, and speak up confidently in class.',
+    },
+  },
+  {
+    name: 'Deepak Raj',
+    department: 'Mathematics',
+    college: 'MentorConnect Demo University',
+    studentProfile: {
+      yearOfStudy: 2,
+      skills: ['Calculus', 'Python', 'LaTeX'],
+      careerInterests: ['Mathematics', 'Data Science'],
+      learningGoals: 'Strengthen linear algebra and probability, and use them in a data science project.',
     },
   },
 ];

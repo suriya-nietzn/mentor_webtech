@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import {
   ArrowRight, BarChart3, Brain, CalendarCheck, CheckCircle2, Cloud, Code2, Globe,
-  GraduationCap, Handshake, Megaphone, Quote, ShieldCheck, Users,
+  GraduationCap, Handshake, Megaphone, Quote, ShieldCheck, Sigma, Users,
 } from 'lucide-react';
 import Button from '../../components/ui/Button.jsx';
 import Avatar from '../../components/ui/Avatar.jsx';
@@ -24,6 +24,7 @@ const CATEGORY_ICONS = {
   'Communication Skills': Megaphone,
   'Cloud & DevOps': Cloud,
   Cybersecurity: ShieldCheck,
+  Mathematics: Sigma,
 };
 
 // Fictional quotes, clearly labelled as demo content on the page.

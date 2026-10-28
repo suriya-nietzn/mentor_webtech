@@ -40,8 +40,8 @@ async function run() {
   const studentDocs = await User.insertMany(
     students.map((s, i) => ({ ...s, email: `student${i + 1}@example.com`, role: 'student', passwordHash, isSample: true }))
   );
-  const [ananya, karthik, priya, rahul, meera, arjun, divya, sanjay, fatima, vikram] = mentorDocs;
-  const [aisha, rohan, nila, kavya, aditya, sneha, harish, lakshmi] = studentDocs;
+  const [ananya, karthik, priya, rahul, meera, arjun, divya, sanjay, fatima, vikram, lavanya, joseph] = mentorDocs;
+  const [aisha, rohan, nila, kavya, aditya, sneha, harish, lakshmi, deepak] = studentDocs;
 
   // Give students a few recently viewed mentors so their dashboards have something to show.
   const viewed = [
@@ -89,6 +89,13 @@ async function run() {
     req(harish, rahul, 'AI/ML', 'I want to apply machine learning to predictive maintenance data from my mechanical lab.', 'rejected', { mentorResponse: 'Please build Python basics first; Divya or Ananya would be a better start.' }),
   ]);
 
+  const [deepakLavanya] = await MentorshipRequest.insertMany([
+    req(deepak, lavanya, 'Mathematics', 'I want to really understand linear algebra, not just memorise steps, before my data science electives.', 'accepted', { mentorResponse: 'Lovely goal. We will start with vectors and build up to eigenvalues.' }),
+    req(rohan, joseph, 'Mathematics', 'I want to learn the probability and statistics behind machine learning models.', 'pending'),
+    req(kavya, lavanya, 'Mathematics', 'I want to learn number theory and modular arithmetic for cryptography.', 'pending'),
+    req(lakshmi, joseph, 'Mathematics', 'I want help with first-year calculus because I am struggling with limits and derivatives.', 'rejected', { mentorResponse: 'Dr. Lavanya runs first-year calculus help and would suit you better. Please ask her.' }),
+  ]);
+
   // Finished mentorships. All but one have a review, giving mentors a realistic spread of ratings.
   const finishedPlan = [
     { student: kavya, mentor: fatima, category: 'Cybersecurity', daysAgo: 30, session: 'CTF walkthrough: web challenges', goals: 'I want to start solving CTF challenges and understand common web vulnerabilities.', rating: 5, comment: 'Explained every vulnerability with a live demo. I solved my first CTF challenge alone after two sessions.' },
@@ -101,6 +108,9 @@ async function run() {
     { student: harish, mentor: arjun, category: 'Communication Skills', daysAgo: 15, session: 'Resume review and mock interview', goals: 'I want my resume to show my software projects even though my degree is in mechanical engineering.', rating: 4, comment: 'Honest feedback on my resume. The mock interview showed me exactly what to improve.' },
     { student: aditya, mentor: rahul, category: 'AI/ML', daysAgo: 28, session: 'Intro to neural networks', goals: 'I want a quick introduction to machine learning concepts to decide if I should take the elective.', rating: 2, comment: 'Knowledgeable mentor, but two sessions were rescheduled at short notice and we did not finish the plan.' },
     { student: sneha, mentor: priya, category: 'Data Science', daysAgo: 12, session: 'EDA on a public dataset', goals: 'I want to complete one exploratory data analysis project and present the findings clearly.' },
+    { student: harish, mentor: lavanya, category: 'Mathematics', daysAgo: 33, session: 'Differential equations: intuition first', goals: 'I want to clear my engineering mathematics backlog and understand differential equations.', rating: 5, comment: 'Finally understood differential equations. She explained each method with a real mechanical example. Cleared my backlog paper.' },
+    { student: sneha, mentor: joseph, category: 'Mathematics', daysAgo: 20, session: 'Linear algebra for machine learning', goals: 'I want to understand the linear algebra and calculus used in neural networks.', rating: 4, comment: 'Matrix calculus finally makes sense. The coding exercises after each topic were very useful.' },
+    { student: deepak, mentor: joseph, category: 'Mathematics', daysAgo: 14, session: 'Probability puzzles', goals: 'I want to practise probability problems for quantitative internship tests.', rating: 5, comment: 'Fun and challenging problems every session. My probability test score improved a lot.' },
   ];
   const finishedDocs = await MentorshipRequest.insertMany(
     finishedPlan.map((p) =>
@@ -128,6 +138,8 @@ async function run() {
     { request: snehaRahul._id, student: sneha._id, mentor: rahul._id, title: 'Project scoping', description: 'Pick a dataset and agree on a baseline model.', scheduledAt: daysFromNow(-5, 18), durationMinutes: 45, status: 'completed', createdBy: rahul._id, isSample: true },
     { request: adityaFatima._id, student: aditya._id, mentor: fatima._id, title: 'Secure code review: login flow', description: 'Review password storage, sessions and input validation.', scheduledAt: daysFromNow(9, 18), durationMinutes: 60, meetingUrl: 'https://meet.example.com/mentorconnect-demo-4', status: 'scheduled', createdBy: fatima._id, isSample: true },
     { request: adityaFatima._id, student: aditya._id, mentor: fatima._id, title: 'Threat modelling the project', description: 'List assets, entry points and the most likely attacks.', scheduledAt: daysFromNow(-2, 18), durationMinutes: 60, status: 'completed', createdBy: fatima._id, isSample: true },
+    { request: deepakLavanya._id, student: deepak._id, mentor: lavanya._id, title: 'Vectors and vector spaces', description: 'Geometric meaning of vectors, span and basis.', scheduledAt: daysFromNow(-6, 15), durationMinutes: 60, status: 'completed', createdBy: lavanya._id, isSample: true },
+    { request: deepakLavanya._id, student: deepak._id, mentor: lavanya._id, title: 'Matrices as transformations', description: 'Matrix multiplication, determinants and what they mean visually.', scheduledAt: daysFromNow(4, 15), durationMinutes: 60, meetingUrl: 'https://meet.example.com/mentorconnect-demo-5', status: 'scheduled', createdBy: deepak._id, isSample: true },
     ...finishedDocs.map((r, i) => ({
       request: r._id,
       student: r.student,
@@ -157,6 +169,8 @@ async function run() {
     { sender: aditya._id, receiver: fatima._id, text: 'I have shared my repository link. The login code is in the auth folder.', read: true, createdAt: t(3000), isSample: true },
     { sender: fatima._id, receiver: aditya._id, text: 'Thanks. Before our next session, read the OWASP cheat sheet on password storage.', read: false, createdAt: t(2900), isSample: true },
     { sender: kavya._id, receiver: fatima._id, text: 'Thank you for the CTF sessions! I placed in the top 20 at the college contest.', read: true, createdAt: t(20000), isSample: true },
+    { sender: deepak._id, receiver: lavanya._id, text: 'Ma’am, I finished the span and basis exercises. Question 4 was tricky but I got it.', read: true, createdAt: t(2000), isSample: true },
+    { sender: lavanya._id, receiver: deepak._id, text: 'Well done! Watch a short video on matrices as transformations before Thursday.', read: false, createdAt: t(1900), isSample: true },
   ]);
 
   // Summary: how many sample records each collection now holds.
@@ -171,8 +185,8 @@ async function run() {
     users, mentorDocs.length, studentDocs.length, requests, sessions, reviews, messages);
   console.log('\n================  DEMO ACCOUNTS (demo only, not real people)  ================');
   console.log(`  Password for every demo account: ${DEMO_PASSWORD}`);
-  console.log('  Students: student1@example.com ... student8@example.com  (student1 = Aisha, has an accepted mentor)');
-  console.log('  Mentors : mentor1@example.com ... mentor10@example.com  (mentor2 = Karthik, has an accepted student)');
+  console.log('  Students: student1@example.com ... student9@example.com  (student1 = Aisha, has an accepted mentor)');
+  console.log('  Mentors : mentor1@example.com ... mentor12@example.com  (mentor2 = Karthik, has an accepted student)');
   console.log('===============================================================================\n');
 }
 

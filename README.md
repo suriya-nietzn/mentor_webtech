@@ -113,7 +113,8 @@ After `npm run seed`, these **fictional** accounts exist. Every one uses the pas
 | Student | `student7@example.com` | Harish. Mechanical student moving to software; two reviews given, one declined request. |
 | Student | `student8@example.com` | Lakshmi. First year; accepted mentorship with an upcoming and a cancelled session, a pending request. |
 | Mentor | `mentor2@example.com` | Karthik Menon. Has an active student, sessions and messages. |
-| Mentor | `mentor1@example.com` ... `mentor10@example.com` | 10 mentors across 6 departments. `mentor8` (Sanjay) is "not accepting students". |
+| Student | `student9@example.com` | Deepak. Mathematics; accepted mentorship with Dr. Lavanya (upcoming session, messages) and a completed, reviewed one. |
+| Mentor | `mentor1@example.com` ... `mentor12@example.com` | 12 mentors across 7 departments. `mentor8` (Sanjay) is "not accepting students". `mentor11` (Lavanya) and `mentor12` (Joseph) teach Mathematics. |
 
 All names are invented and all emails use `example.com`. Sample mentors show a **"Demo data"** badge. Do not use these accounts for anything real.
 
