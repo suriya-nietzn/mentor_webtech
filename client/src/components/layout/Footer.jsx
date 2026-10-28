@@ -31,11 +31,10 @@ export default function Footer() {
         </nav>
         <div>
           <h2 className="footer-heading">Contact</h2>
-          {/* Placeholder contact details for the college project demo. */}
           <ul className="footer-contact">
-            <li><MapPin aria-hidden="true" /> Department of Computer Science, Your College Campus</li>
-            <li><Mail aria-hidden="true" /> <a href="mailto:support@example.com">support@example.com</a></li>
-            <li><Phone aria-hidden="true" /> +91 00000 00000 (placeholder)</li>
+            <li><MapPin aria-hidden="true" /> Karunya Nagar, Coimbatore</li>
+            <li><Mail aria-hidden="true" /> <a href="mailto:mentorconnet@ben.in">mentorconnet@ben.in</a></li>
+            <li><Phone aria-hidden="true" /> <a href="tel:+914224502100">+91 422 450 2100</a></li>
           </ul>
         </div>
       </div>
