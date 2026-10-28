@@ -12,7 +12,7 @@ import Avatar from '../../components/ui/Avatar.jsx';
 import Button from '../../components/ui/Button.jsx';
 import { CATEGORIES } from '../../utils/constants.js';
 import { listToText, textToList } from '../../utils/formatters.js';
-import { isHttpUrl, compactErrors } from '../../utils/validators.js';
+import { isHttpUrl, compactErrors, skillsError } from '../../utils/validators.js';
 import '../../components/dashboard/Dashboard.css';
 
 function toForm(user) {
@@ -61,6 +61,7 @@ export default function StudentProfile() {
     const found = compactErrors({
       name: form.name.trim().length < 2 ? 'Name must be at least 2 characters' : '',
       avatarUrl: form.avatarUrl.trim() && !isHttpUrl(form.avatarUrl) ? 'Use an image URL starting with http:// or https://' : '',
+      skills: skillsError(textToList(form.skills)),
     });
     setErrors(found);
     setFormError('');

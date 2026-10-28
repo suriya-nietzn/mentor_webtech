@@ -1,6 +1,6 @@
 import { body } from 'express-validator';
 import { CATEGORIES, WEEK_DAYS } from '../utils/constants.js';
-import { textField, listField, cleanText } from './common.js';
+import { textField, listField, cleanText, skillProblem } from './common.js';
 
 const avatarRule = body('avatarUrl')
   .optional()
@@ -22,7 +22,7 @@ const commonRules = [
 export const studentProfileRules = [
   ...commonRules,
   body('yearOfStudy').optional().isInt({ min: 1, max: 6 }).withMessage('Year of study must be between 1 and 6').toInt(),
-  listField('skills', 'Skills'),
+  listField('skills', 'Skills', { itemCheck: skillProblem }),
   listField('careerInterests', 'Career interests'),
   textField('learningGoals', 'Learning goals', { max: 1000 }),
 ];
@@ -31,7 +31,7 @@ export const mentorProfileRules = [
   ...commonRules,
   textField('title', 'Professional title', { max: 120 }),
   textField('bio', 'Bio', { max: 2000 }),
-  listField('skills', 'Skills'),
+  listField('skills', 'Skills', { itemCheck: skillProblem }),
   listField('expertise', 'Expertise'),
   body('yearsOfExperience').optional().isInt({ min: 0, max: 60 }).withMessage('Experience must be 0-60 years').toInt(),
   body('education').optional().isArray({ max: 10 }).withMessage('Education: at most 10 entries'),

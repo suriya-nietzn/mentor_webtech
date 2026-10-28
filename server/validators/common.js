@@ -36,7 +36,27 @@ export const textField = (field, label, { min = 0, max = 200, required = false }
     );
 };
 
-export const listField = (field, label, { maxItems = 20, maxLength = 40, required = false } = {}) => {
+/*
+ * Rejects keyboard-mash entries such as "jcbsdjb.svjsdjvb" while allowing real skill
+ * names like "C++", "C#", "Node.js", "UI/UX", "AWS" or "Public Speaking".
+ * Returns an error message, or '' if the skill looks fine. Keep in sync with
+ * skillProblem() in client/src/utils/validators.js.
+ */
+const SKILL_CHARS = /^[A-Za-z0-9+#./&()' -]+$/;
+const KEYBOARD_MASH = /asdf|sdfg|dfgh|fghj|ghjk|hjkl|qwer|wert|erty|zxcv|xcvb|cvbn/i;
+export function skillProblem(skill) {
+  const bad = `"${skill}" does not look like a real skill. Please change it (e.g. Python, React, Public Speaking).`;
+  if (!SKILL_CHARS.test(skill) || !/[A-Za-z]/.test(skill)) return bad;
+  if (/(.)\1{3,}/.test(skill) || KEYBOARD_MASH.test(skill)) return bad;
+  for (const word of skill.split(/[^A-Za-z]+/).filter(Boolean)) {
+    if (word.length <= 6 && word === word.toUpperCase()) continue; // acronyms: SQL, HTML, MATLAB
+    if (/[bcdfghjklmnpqrstvwxz]{5,}/i.test(word)) return bad; // five consonants in a row
+    if (word.length > 4 && !/[aeiouy]/i.test(word)) return bad; // long word with no vowel
+  }
+  return '';
+}
+
+export const listField = (field, label, { maxItems = 20, maxLength = 40, required = false, itemCheck } = {}) => {
   let chain = body(field);
   if (!required) chain = chain.optional();
   return chain
@@ -45,6 +65,8 @@ export const listField = (field, label, { maxItems = 20, maxLength = 40, require
       if (required && list.length === 0) throw new Error(`Add at least one ${label.toLowerCase()} item`);
       if (list.length > maxItems) throw new Error(`${label}: at most ${maxItems} items`);
       if (list.some((s) => s.length > maxLength)) throw new Error(`${label}: each item must be at most ${maxLength} characters`);
+      const problem = itemCheck && list.map(itemCheck).find(Boolean);
+      if (problem) throw new Error(problem);
       return true;
     });
 };

@@ -1,6 +1,6 @@
 import { body } from 'express-validator';
 import { ROLES } from '../utils/constants.js';
-import { textField, listField, strongPassword, toList } from './common.js';
+import { textField, listField, strongPassword, toList, skillProblem } from './common.js';
 
 export const registerRules = [
   textField('name', 'Full name', { min: 2, max: 80, required: true }),
@@ -21,7 +21,7 @@ export const registerRules = [
     .isInt({ min: 1, max: 6 })
     .withMessage('Year of study must be between 1 and 6')
     .toInt(),
-  listField('skills', 'Skills'),
+  listField('skills', 'Skills', { itemCheck: skillProblem }),
   listField('expertise', 'Expertise'),
   body('skills')
     .if(body('role').equals('mentor'))

@@ -6,7 +6,7 @@ import { useAuth } from '../../context/AuthContext.jsx';
 import { getErrorMessage, getFieldErrors } from '../../services/api.js';
 import { Input, DepartmentInput, PasswordInput, Select, FormAlert } from '../../components/ui/FormField.jsx';
 import Button from '../../components/ui/Button.jsx';
-import { isEmail, isStrongPassword, PASSWORD_HINT, compactErrors, safeRedirectPath } from '../../utils/validators.js';
+import { isEmail, isStrongPassword, PASSWORD_HINT, compactErrors, safeRedirectPath, skillsError } from '../../utils/validators.js';
 import { textToList } from '../../utils/formatters.js';
 import { dashboardPath } from '../../utils/constants.js';
 import useDocumentTitle from '../../hooks/useDocumentTitle.js';
@@ -53,7 +53,10 @@ export default function Register() {
       college: f.college.trim().length < 2 ? 'College name is required' : '',
       department: f.department.trim().length < 2 ? 'Department is required' : '',
       yearOfStudy: role === 'student' && !f.yearOfStudy ? 'Select your year of study' : '',
-      skills: role === 'mentor' && textToList(f.skills).length === 0 ? 'List at least one skill you can mentor in' : '',
+      skills:
+        role === 'mentor' && textToList(f.skills).length === 0
+          ? 'List at least one skill you can mentor in'
+          : skillsError(textToList(f.skills)),
       acceptTerms: !f.acceptTerms ? 'You must accept the terms to continue' : '',
     });
   }
