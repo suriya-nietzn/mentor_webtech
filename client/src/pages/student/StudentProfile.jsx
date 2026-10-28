@@ -5,7 +5,7 @@ import useDocumentTitle from '../../hooks/useDocumentTitle.js';
 import useFetch from '../../hooks/useFetch.js';
 import { studentService } from '../../services/resources.js';
 import { getErrorMessage, getFieldErrors } from '../../services/api.js';
-import { Input, DepartmentInput, Select, Textarea, FormAlert } from '../../components/ui/FormField.jsx';
+import { Input, DepartmentInput, Select, SkillsInput, Textarea, FormAlert } from '../../components/ui/FormField.jsx';
 import { PageHeader, ProgressBar } from '../../components/ui/Misc.jsx';
 import { ErrorState, PageLoader } from '../../components/ui/States.jsx';
 import Avatar from '../../components/ui/Avatar.jsx';
@@ -135,7 +135,7 @@ export default function StudentProfile() {
 
         <section className="card profile-form-section">
           <h2>Skills & goals</h2>
-          <Input label="Skills" name="skills" value={form.skills} onChange={change} error={errors.skills} hint="Separate with commas, e.g. Python, SQL, Public Speaking" />
+          <SkillsInput label="Skills" value={form.skills} onChange={change} department={form.department} error={errors.skills} hint="Separate with commas, or pick from the suggestions." />
           <fieldset className="fieldset">
             <legend className="legend">Career interests</legend>
             <div className="chip-select">

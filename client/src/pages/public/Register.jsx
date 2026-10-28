@@ -4,7 +4,7 @@ import toast from 'react-hot-toast';
 import { BookOpen, Briefcase, CalendarCheck, GraduationCap, Users } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext.jsx';
 import { getErrorMessage, getFieldErrors } from '../../services/api.js';
-import { Input, DepartmentInput, PasswordInput, Select, FormAlert } from '../../components/ui/FormField.jsx';
+import { Input, DepartmentInput, PasswordInput, Select, SkillsInput, FormAlert } from '../../components/ui/FormField.jsx';
 import Button from '../../components/ui/Button.jsx';
 import { isEmail, isStrongPassword, PASSWORD_HINT, compactErrors, safeRedirectPath, skillsError } from '../../utils/validators.js';
 import { textToList } from '../../utils/formatters.js';
@@ -183,24 +183,24 @@ export default function Register() {
                     <option key={y} value={y}>Year {y}</option>
                   ))}
                 </Select>
-                <Input
+                <SkillsInput
                   label="Skills you have or are learning"
-                  name="skills"
                   value={form.skills}
                   onChange={change}
+                  department={form.department}
                   error={errors.skills}
-                  hint="Separate with commas, e.g. Python, React. Used to recommend mentors."
+                  hint="Separate with commas, or pick from the suggestions. Used to recommend mentors."
                 />
               </>
             ) : (
               <>
-                <Input
+                <SkillsInput
                   label="Skills you can mentor in"
-                  name="skills"
                   value={form.skills}
                   onChange={change}
+                  department={form.department}
                   error={errors.skills}
-                  hint="Separate with commas, e.g. Java, Data Structures"
+                  hint="Separate with commas, or pick from the suggestions."
                   required
                 />
                 <Input

@@ -1,6 +1,8 @@
-import { useId, useState } from 'react';
-import { AlertCircle, Eye, EyeOff } from 'lucide-react';
+import { useId, useRef, useState } from 'react';
+import { AlertCircle, Eye, EyeOff, Plus } from 'lucide-react';
 import { DEPARTMENTS } from '../../utils/constants.js';
+import { textToList } from '../../utils/formatters.js';
+import { ALL_SKILLS, skillSuggestions } from '../../utils/skillSuggestions.js';
 
 /*
  * Field wraps any input with a label, hint and inline error, and wires up the
@@ -51,6 +53,89 @@ export function DepartmentInput({ label = 'Department', ...rest }) {
         {DEPARTMENTS.map((d) => <option key={d} value={d} />)}
       </datalist>
     </>
+  );
+}
+
+/*
+ * Comma-separated skills with help:
+ * - chips suggest skills for the chosen department; clicking one adds it
+ * - while typing, the rest of a matching skill shows in grey and Tab accepts it
+ *   (Tab moves to the next field as usual when there is nothing to complete)
+ * onChange receives an event-like { target: { name, value } } so forms can reuse their change handler.
+ */
+export function SkillsInput({ label, name = 'skills', value = '', onChange, department, hint, error, required }) {
+  const inputRef = useRef(null);
+  const [focused, setFocused] = useState(false);
+  const { title, skills: suggested } = skillSuggestions(department);
+
+  const added = new Set(textToList(value).map((s) => s.toLowerCase()));
+  const lastComma = value.lastIndexOf(',');
+  const token = value.slice(lastComma + 1).trimStart();
+  const completion = token
+    ? [...suggested, ...ALL_SKILLS].find(
+        (s) => s.length > token.length && s.toLowerCase().startsWith(token.toLowerCase()) && !added.has(s.toLowerCase())
+      )
+    : '';
+  const chips = suggested.filter((s) => !added.has(s.toLowerCase()));
+
+  const emit = (next) => onChange({ target: { name, value: next, type: 'text' } });
+
+  function acceptCompletion() {
+    emit(`${value.slice(0, lastComma + 1)}${lastComma >= 0 ? ' ' : ''}${completion}, `);
+  }
+
+  function addSkill(skill) {
+    const base = value.trim().replace(/,$/, '');
+    emit(base ? `${base}, ${skill}, ` : `${skill}, `);
+    inputRef.current?.focus();
+  }
+
+  function handleKeyDown(e) {
+    const caretAtEnd = e.target.selectionStart === value.length;
+    if (e.key === 'Tab' && !e.shiftKey && completion && caretAtEnd) {
+      e.preventDefault();
+      acceptCompletion();
+    }
+  }
+
+  const showGhost = focused && completion;
+  return (
+    <Field label={label} hint={showGhost ? `Press Tab to add "${completion}"` : hint} error={error} required={required}>
+      {(a11y) => (
+        <>
+          <div className="skills-input">
+            <input
+              ref={inputRef}
+              className="input"
+              name={name}
+              value={value}
+              autoComplete="off"
+              onChange={(e) => emit(e.target.value)}
+              onKeyDown={handleKeyDown}
+              onFocus={() => setFocused(true)}
+              onBlur={() => setFocused(false)}
+              {...a11y}
+            />
+            {showGhost && (
+              <div className="skills-ghost" aria-hidden="true">
+                <span className="skills-ghost-typed">{value}</span>
+                {completion.slice(token.length)}
+              </div>
+            )}
+          </div>
+          {chips.length > 0 && (
+            <div className="skill-suggest">
+              <span className="skill-suggest-title">{title}:</span>
+              {chips.map((s) => (
+                <button key={s} type="button" className="skill-chip" onClick={() => addSkill(s)} aria-label={`Add skill ${s}`}>
+                  <Plus aria-hidden="true" /> {s}
+                </button>
+              ))}
+            </div>
+          )}
+        </>
+      )}
+    </Field>
   );
 }
 

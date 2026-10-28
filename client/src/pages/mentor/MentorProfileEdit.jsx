@@ -6,7 +6,7 @@ import { useAuth } from '../../context/AuthContext.jsx';
 import useDocumentTitle from '../../hooks/useDocumentTitle.js';
 import { mentorService } from '../../services/resources.js';
 import { getErrorMessage, getFieldErrors } from '../../services/api.js';
-import { Input, DepartmentInput, Textarea, FormAlert } from '../../components/ui/FormField.jsx';
+import { Input, DepartmentInput, SkillsInput, Textarea, FormAlert } from '../../components/ui/FormField.jsx';
 import { PageHeader, ProgressBar } from '../../components/ui/Misc.jsx';
 import Avatar from '../../components/ui/Avatar.jsx';
 import Button from '../../components/ui/Button.jsx';
@@ -189,7 +189,7 @@ export default function MentorProfileEdit() {
 
         <section className="card profile-form-section">
           <h2>Skills & expertise</h2>
-          <Input label="Skills" name="skills" value={form.skills} onChange={change} error={errors.skills} required hint="Separate with commas. Students can filter by these." />
+          <SkillsInput label="Skills" value={form.skills} onChange={change} department={form.department} error={errors.skills} required hint="Separate with commas, or pick from the suggestions. Students can filter by these." />
           <Input label="Areas of expertise" name="expertise" value={form.expertise} onChange={change} error={errors.expertise} hint="Separate with commas, e.g. Mock interviews, Project reviews" />
           <fieldset className="fieldset">
             <legend className="legend">Mentoring categories</legend>

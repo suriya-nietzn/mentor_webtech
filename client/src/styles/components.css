@@ -148,6 +148,24 @@
 .textarea { min-height: 110px; resize: vertical; line-height: 1.5; }
 .select { appearance: none; padding-right: 36px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%235b6b80' stroke-width='2' viewBox='0 0 24 24'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; }
 .input:hover, .select:hover, .textarea:hover { border-color: var(--gray-500); }
+
+/* Skills box: grey completion text sits exactly over the input (same padding + border width). */
+.skills-input { position: relative; }
+.skills-ghost {
+  position: absolute; inset: 0; padding: 11px 13px; display: flex; align-items: center;
+  white-space: pre; overflow: hidden; pointer-events: none; color: var(--gray-500); font: inherit;
+}
+.skills-ghost-typed { color: transparent; }
+.skill-suggest { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 2px; }
+.skill-suggest-title { font-size: 0.8rem; color: var(--gray-500); margin-right: 2px; }
+.skill-chip {
+  display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; font-size: 0.8rem; font-family: inherit;
+  color: var(--navy); background: var(--blue-light); border: 1px solid transparent; border-radius: var(--radius-full); cursor: pointer;
+  transition: border-color var(--transition), background var(--transition);
+}
+.skill-chip:hover { border-color: var(--blue); }
+.skill-chip:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+.skill-chip svg { width: 12px; height: 12px; }
 .input:focus, .select:focus, .textarea:focus { outline: none; border-color: var(--blue); box-shadow: var(--focus-ring); }
 .input[aria-invalid='true'], .select[aria-invalid='true'], .textarea[aria-invalid='true'] { border-color: var(--danger); }
 .input:disabled { background: var(--gray-100); cursor: not-allowed; }
