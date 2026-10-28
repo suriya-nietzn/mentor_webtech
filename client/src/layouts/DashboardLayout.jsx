@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import {
-  CalendarClock, ChevronsLeft, ChevronsRight, Clock, GraduationCap, Handshake, Home, Inbox,
+  CalendarClock, ChevronsLeft, ChevronsRight, Clock, GraduationCap, Handshake, Inbox,
   LayoutDashboard, LogOut, Menu, MessageSquare, Search, Settings, User, Users, X,
 } from 'lucide-react';
 import Logo from '../components/layout/Logo.jsx';
@@ -123,12 +123,6 @@ export default function DashboardLayout() {
                 </NavLink>
               </li>
             ))}
-            <li>
-              <NavLink to="/" className="dash-link" end title={collapsed ? 'Website home' : undefined}>
-                <Home aria-hidden="true" />
-                <span className="dash-link-label">Website home</span>
-              </NavLink>
-            </li>
             <li>
               <button type="button" className="dash-link" onClick={handleLogout} title={collapsed ? 'Logout' : undefined}>
                 <LogOut aria-hidden="true" />
