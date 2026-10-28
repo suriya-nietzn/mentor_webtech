@@ -22,7 +22,6 @@ const EMPTY = {
   yearOfStudy: '',
   skills: '',
   expertise: '',
-  acceptTerms: false,
 };
 
 export default function Register() {
@@ -38,8 +37,8 @@ export default function Register() {
   const [submitting, setSubmitting] = useState(false);
 
   const change = (e) => {
-    const { name, value, type, checked } = e.target;
-    setForm((f) => ({ ...f, [name]: type === 'checkbox' ? checked : value }));
+    const { name, value } = e.target;
+    setForm((f) => ({ ...f, [name]: value }));
     setErrors((er) => ({ ...er, [name]: '' }));
   };
 
@@ -56,9 +55,7 @@ export default function Register() {
       skills:
         role === 'mentor' && textToList(f.skills).length === 0
           ? 'List at least one skill you can mentor in'
-          : skillsError(textToList(f.skills)),
-      acceptTerms: !f.acceptTerms ? 'You must accept the terms to continue' : '',
-    });
+          : skillsError(textToList(f.skills)),    });
   }
 
   async function handleSubmit(e) {
@@ -83,9 +80,7 @@ export default function Register() {
         role,
         college: form.college.trim(),
         department: form.department.trim(),
-        skills: textToList(form.skills),
-        acceptTerms: form.acceptTerms,
-        ...(role === 'student' ? { yearOfStudy: Number(form.yearOfStudy) } : { expertise: textToList(form.expertise) }),
+        skills: textToList(form.skills),        ...(role === 'student' ? { yearOfStudy: Number(form.yearOfStudy) } : { expertise: textToList(form.expertise) }),
       };
       const user = await register(payload);
       toast.success('Account created. Welcome to MentorConnect!');
@@ -213,25 +208,6 @@ export default function Register() {
                 />
               </>
             )}
-
-            <div className="field">
-              <label className="checkbox">
-                <input
-                  type="checkbox"
-                  name="acceptTerms"
-                  checked={form.acceptTerms}
-                  onChange={change}
-                  aria-invalid={errors.acceptTerms ? 'true' : undefined}
-                  aria-describedby={errors.acceptTerms ? 'terms-error' : undefined}
-                />
-                <span>
-                  I agree to use MentorConnect respectfully and understand this is a college project demo.
-                </span>
-              </label>
-              {errors.acceptTerms && (
-                <span id="terms-error" className="field-error">{errors.acceptTerms}</span>
-              )}
-            </div>
 
             <Button type="submit" variant="cta" size="lg" block loading={submitting}>
               {submitting ? 'Creating account...' : `Create ${role} account`}

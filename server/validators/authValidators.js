@@ -26,9 +26,7 @@ export const registerRules = [
   body('skills')
     .if(body('role').equals('mentor'))
     .custom((value) => toList(value).length > 0)
-    .withMessage('Mentors must list at least one skill'),
-  body('acceptTerms').custom((v) => v === true || v === 'true').withMessage('You must accept the terms to register'),
-];
+    .withMessage('Mentors must list at least one skill'),];
 
 export const loginRules = [
   body('email').isString().withMessage('Email is required').bail().trim().isEmail().withMessage('Enter a valid email address').normalizeEmail({ gmail_remove_dots: false }),
