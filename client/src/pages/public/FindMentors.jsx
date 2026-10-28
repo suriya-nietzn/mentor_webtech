@@ -14,12 +14,6 @@ import { CATEGORIES } from '../../utils/constants.js';
 import { pluralize } from '../../utils/formatters.js';
 import './FindMentors.css';
 
-const SORTS = {
-  'name-asc': 'Name (A to Z)',
-  'name-desc': 'Name (Z to A)',
-  'experience-desc': 'Most experienced',
-  'experience-asc': 'Least experienced',
-};
 const PAGE_SIZE = 9;
 const FILTER_KEYS = ['search', 'skill', 'department', 'category'];
 
@@ -31,7 +25,6 @@ export default function FindMentors() {
   const skill = params.get('skill') || '';
   const department = params.get('department') || '';
   const category = params.get('category') || '';
-  const sortKey = SORTS[params.get('sort')] ? params.get('sort') : 'name-asc';
   const page = Math.max(1, Number(params.get('page')) || 1);
 
   // Search box keeps its own state and is written to the URL after the user pauses typing.
@@ -62,10 +55,10 @@ export default function FindMentors() {
     setParams({}, { replace: true });
   };
 
-  const [sort, order] = sortKey.split('-');
+  // Results are always listed by name, A to Z.
   const { data, loading, error, reload } = useFetch(
-    () => mentorService.list({ search, skill, department, category, sort, order, page, limit: PAGE_SIZE }),
-    [search, skill, department, category, sort, order, page]
+    () => mentorService.list({ search, skill, department, category, page, limit: PAGE_SIZE }),
+    [search, skill, department, category, page]
   );
   const { data: options } = useFetch(() => mentorService.filters(), []);
 
@@ -109,9 +102,6 @@ export default function FindMentors() {
         <Select label="Category" value={category} onChange={(e) => updateParams({ category: e.target.value })}>
           <option value="">All categories</option>
           {CATEGORIES.map((c) => <option key={c} value={c}>{c}</option>)}
-        </Select>
-        <Select label="Sort by" value={sortKey} onChange={(e) => updateParams({ sort: e.target.value === 'name-asc' ? '' : e.target.value })}>
-          {Object.entries(SORTS).map(([k, label]) => <option key={k} value={k}>{label}</option>)}
         </Select>
       </form>
 
