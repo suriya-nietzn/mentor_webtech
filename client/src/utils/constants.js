@@ -10,6 +10,25 @@ export const CATEGORIES = [
   'Mathematics',
 ];
 
+// Suggestions for the department field. People can still type a department not listed here.
+export const DEPARTMENTS = [
+  'Artificial Intelligence & Data Science',
+  'Biotechnology',
+  'Chemistry',
+  'Civil Engineering',
+  'Commerce',
+  'Computer Science',
+  'Data Science',
+  'Electrical & Electronics Engineering',
+  'Electronics & Communication',
+  'English & Communication',
+  'Information Technology',
+  'Management Studies',
+  'Mathematics',
+  'Mechanical Engineering',
+  'Physics',
+];
+
 export const WEEK_DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
 export const REQUEST_STATUS = {

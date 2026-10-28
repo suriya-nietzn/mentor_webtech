@@ -1,5 +1,6 @@
 import { useId, useState } from 'react';
 import { AlertCircle, Eye, EyeOff } from 'lucide-react';
+import { DEPARTMENTS } from '../../utils/constants.js';
 
 /*
  * Field wraps any input with a label, hint and inline error, and wires up the
@@ -37,6 +38,19 @@ export function Input({ label, hint, error, required, id, className = '', ...res
     <Field label={label} hint={hint} error={error} required={required} id={id}>
       {(a11y) => <input className={`input ${className}`} {...a11y} {...rest} />}
     </Field>
+  );
+}
+
+// Text input with a suggestion list: pick a common department or type any other.
+export function DepartmentInput({ label = 'Department', ...rest }) {
+  const listId = `${useId()}-departments`;
+  return (
+    <>
+      <Input label={label} list={listId} autoComplete="off" placeholder="Choose or type" {...rest} />
+      <datalist id={listId}>
+        {DEPARTMENTS.map((d) => <option key={d} value={d} />)}
+      </datalist>
+    </>
   );
 }
 

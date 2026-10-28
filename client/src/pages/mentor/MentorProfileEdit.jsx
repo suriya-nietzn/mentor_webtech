@@ -6,7 +6,7 @@ import { useAuth } from '../../context/AuthContext.jsx';
 import useDocumentTitle from '../../hooks/useDocumentTitle.js';
 import { mentorService } from '../../services/resources.js';
 import { getErrorMessage, getFieldErrors } from '../../services/api.js';
-import { Input, Textarea, FormAlert } from '../../components/ui/FormField.jsx';
+import { Input, DepartmentInput, Textarea, FormAlert } from '../../components/ui/FormField.jsx';
 import { PageHeader, ProgressBar } from '../../components/ui/Misc.jsx';
 import Avatar from '../../components/ui/Avatar.jsx';
 import Button from '../../components/ui/Button.jsx';
@@ -178,7 +178,7 @@ export default function MentorProfileEdit() {
           </div>
           <div className="form-row">
             <Input label="College / organisation" name="college" value={form.college} onChange={change} error={errors.college} />
-            <Input label="Department" name="department" value={form.department} onChange={change} error={errors.department} />
+            <DepartmentInput name="department" value={form.department} onChange={change} error={errors.department} />
           </div>
           <div className="form-row">
             <Input label="Years of experience" name="yearsOfExperience" type="number" min="0" max="60" value={form.yearsOfExperience} onChange={change} error={errors.yearsOfExperience} required />

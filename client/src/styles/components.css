@@ -129,7 +129,8 @@
 .form-row { display: grid; gap: 18px; grid-template-columns: 1fr; }
 @media (min-width: 640px) { .form-row { grid-template-columns: 1fr 1fr; } }
 
-.field { display: grid; gap: 6px; }
+/* align-content: start keeps label and input at the top when a neighbour in the row is taller. */
+.field { display: grid; gap: 6px; align-content: start; }
 .field label, .field .label { font-weight: 600; font-size: 0.9rem; color: var(--navy); }
 .field .required { color: var(--danger); margin-left: 2px; }
 .field .hint { font-size: 0.8rem; color: var(--gray-500); }

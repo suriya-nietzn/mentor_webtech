@@ -4,7 +4,7 @@ import toast from 'react-hot-toast';
 import { BookOpen, Briefcase, CalendarCheck, GraduationCap, Users } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext.jsx';
 import { getErrorMessage, getFieldErrors } from '../../services/api.js';
-import { Input, PasswordInput, Select, FormAlert } from '../../components/ui/FormField.jsx';
+import { Input, DepartmentInput, PasswordInput, Select, FormAlert } from '../../components/ui/FormField.jsx';
 import Button from '../../components/ui/Button.jsx';
 import { isEmail, isStrongPassword, PASSWORD_HINT, compactErrors, safeRedirectPath } from '../../utils/validators.js';
 import { textToList } from '../../utils/formatters.js';
@@ -169,7 +169,7 @@ export default function Register() {
             </div>
             <div className="form-row">
               <Input label="College name" name="college" value={form.college} onChange={change} error={errors.college} required />
-              <Input label="Department" name="department" value={form.department} onChange={change} error={errors.department} required placeholder="e.g. Computer Science" />
+              <DepartmentInput name="department" value={form.department} onChange={change} error={errors.department} required />
             </div>
 
             {role === 'student' ? (

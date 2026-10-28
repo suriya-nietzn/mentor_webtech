@@ -5,7 +5,7 @@ import useDocumentTitle from '../../hooks/useDocumentTitle.js';
 import useFetch from '../../hooks/useFetch.js';
 import { studentService } from '../../services/resources.js';
 import { getErrorMessage, getFieldErrors } from '../../services/api.js';
-import { Input, Select, Textarea, FormAlert } from '../../components/ui/FormField.jsx';
+import { Input, DepartmentInput, Select, Textarea, FormAlert } from '../../components/ui/FormField.jsx';
 import { PageHeader, ProgressBar } from '../../components/ui/Misc.jsx';
 import { ErrorState, PageLoader } from '../../components/ui/States.jsx';
 import Avatar from '../../components/ui/Avatar.jsx';
@@ -112,7 +112,7 @@ export default function StudentProfile() {
           </div>
           <div className="form-row">
             <Input label="College" name="college" value={form.college} onChange={change} error={errors.college} />
-            <Input label="Department" name="department" value={form.department} onChange={change} error={errors.department} />
+            <DepartmentInput name="department" value={form.department} onChange={change} error={errors.department} />
           </div>
           <div className="form-row">
             <Select label="Year of study" name="yearOfStudy" value={form.yearOfStudy} onChange={change} error={errors.yearOfStudy}>
