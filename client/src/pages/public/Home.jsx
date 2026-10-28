@@ -160,9 +160,6 @@ export default function Home() {
             <p>From sign-up to your first session in a few minutes.</p>
           </div>
           <HowItWorksSteps />
-          <div className="section-actions">
-            <Link to="/how-it-works">Read the full guide &rarr;</Link>
-          </div>
         </div>
       </section>
 
@@ -221,6 +218,37 @@ export default function Home() {
           <div className="row">
             <Button to="/register" variant="cta" size="lg">Get started</Button>
             <Button to="/mentors" variant="light" size="lg">Browse mentors</Button>
+          </div>
+        </div>
+      </section>
+
+      <section className="section section-alt" aria-labelledby="roles-title">
+        <div className="container">
+          <div className="section-header">
+            <span className="eyebrow">Who it is for</span>
+            <h2 id="roles-title">Built for students and mentors</h2>
+          </div>
+          <div className="role-columns">
+            <div className="card">
+              <h3>For students</h3>
+              <ul className="check-list">
+                <li><CheckCircle2 aria-hidden="true" /> Fill in your skills and career interests to get mentor recommendations.</li>
+                <li><CheckCircle2 aria-hidden="true" /> Send a request with clear goals (at least 20 characters).</li>
+                <li><CheckCircle2 aria-hidden="true" /> Once accepted, schedule sessions and message your mentor.</li>
+                <li><CheckCircle2 aria-hidden="true" /> When the mentorship is completed, leave honest feedback.</li>
+              </ul>
+              <Button to="/register" variant="cta" style={{ marginTop: 20 }}>Join as a student <ArrowRight aria-hidden="true" /></Button>
+            </div>
+            <div className="card">
+              <h3>For mentors</h3>
+              <ul className="check-list">
+                <li><CheckCircle2 aria-hidden="true" /> Build a profile with your skills, experience and availability.</li>
+                <li><CheckCircle2 aria-hidden="true" /> Review each request and accept or decline it with a short note.</li>
+                <li><CheckCircle2 aria-hidden="true" /> Schedule, reschedule and complete sessions from your dashboard.</li>
+                <li><CheckCircle2 aria-hidden="true" /> Pause new requests any time by turning off "Accepting students".</li>
+              </ul>
+              <Button to="/register?role=mentor" variant="outline" style={{ marginTop: 20 }}>Become a mentor <ArrowRight aria-hidden="true" /></Button>
+            </div>
           </div>
         </div>
       </section>

@@ -263,7 +263,7 @@ student-mentorship-portal/        (this folder)
         │   ├── dashboard/      RequestCard, SessionRow, dashboard widgets
         │   └── forms/          session, respond and review dialogs
         └── pages/
-            ├── public/         Home, FindMentors, MentorProfile, HowItWorks, About, Contact, Login, Register, NotFound
+            ├── public/         Home, FindMentors, MentorProfile, About, Contact, Login, Register, NotFound
             ├── student/        StudentDashboard, StudentMentorships, StudentProfile
             ├── mentor/         MentorDashboard, MentorProfileEdit, MentorRequests, MentorStudents, MentorAvailability
             └── shared/         Sessions, SessionDetails, Messages, Settings (used by both roles)

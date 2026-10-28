@@ -17,7 +17,6 @@ export default function Footer() {
           <h2 className="footer-heading">Explore</h2>
           <ul>
             <li><Link to="/mentors">Find Mentors</Link></li>
-            <li><Link to="/how-it-works">How It Works</Link></li>
             <li><Link to="/about">About</Link></li>
             <li><Link to="/contact">Contact</Link></li>
           </ul>

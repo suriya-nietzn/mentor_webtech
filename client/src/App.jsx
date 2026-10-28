@@ -9,7 +9,6 @@ import { PageLoader } from './components/ui/States.jsx';
 const Home = lazy(() => import('./pages/public/Home.jsx'));
 const FindMentors = lazy(() => import('./pages/public/FindMentors.jsx'));
 const MentorProfile = lazy(() => import('./pages/public/MentorProfile.jsx'));
-const HowItWorks = lazy(() => import('./pages/public/HowItWorks.jsx'));
 const About = lazy(() => import('./pages/public/About.jsx'));
 const Contact = lazy(() => import('./pages/public/Contact.jsx'));
 const Login = lazy(() => import('./pages/public/Login.jsx'));
@@ -52,7 +51,6 @@ export default function App() {
             <Route path="/" element={<Home />} />
             <Route path="/mentors" element={<FindMentors />} />
             <Route path="/mentors/:id" element={<MentorProfile />} />
-            <Route path="/how-it-works" element={<HowItWorks />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/login" element={<GuestRoute><Login /></GuestRoute>} />

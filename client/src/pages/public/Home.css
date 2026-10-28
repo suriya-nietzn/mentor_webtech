@@ -67,3 +67,9 @@
 
 .section-alt { background: var(--white); border-top: 1px solid var(--gray-200); border-bottom: 1px solid var(--gray-200); }
 .section-actions { text-align: center; margin-top: 32px; }
+
+.role-columns { display: grid; gap: 20px; }
+@media (min-width: 900px) { .role-columns { grid-template-columns: 1fr 1fr; } }
+.check-list { list-style: none; display: grid; gap: 10px; }
+.check-list li { display: flex; gap: 10px; align-items: flex-start; }
+.check-list svg { width: 18px; height: 18px; color: var(--success); margin-top: 4px; flex-shrink: 0; }

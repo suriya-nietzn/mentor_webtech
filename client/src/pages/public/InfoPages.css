@@ -13,24 +13,9 @@
 
 .mv-card { border-top: 4px solid var(--gold); }
 
-.faq { display: grid; gap: 10px; }
-.faq details { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-sm); padding: 0 16px; }
-.faq summary { cursor: pointer; padding: 14px 0; font-weight: 600; color: var(--navy); list-style-position: inside; }
-.faq summary:focus-visible { box-shadow: var(--focus-ring); }
-.faq details p { margin: 0 0 14px; color: var(--gray-700); }
-
 .contact-grid { display: grid; gap: 24px; align-items: start; }
 @media (min-width: 900px) { .contact-grid { grid-template-columns: 1fr 1.5fr; } }
 .contact-info { list-style: none; display: grid; gap: 18px; }
 .contact-info li { display: flex; gap: 12px; }
 .contact-info svg { width: 20px; height: 20px; color: var(--blue); flex-shrink: 0; margin-top: 3px; }
 .contact-info strong { display: block; color: var(--navy); }
-
-.role-columns { display: grid; gap: 20px; }
-@media (min-width: 900px) { .role-columns { grid-template-columns: 1fr 1fr; } }
-.check-list { list-style: none; display: grid; gap: 10px; }
-.check-list li { display: flex; gap: 10px; align-items: flex-start; }
-.check-list svg { width: 18px; height: 18px; color: var(--success); margin-top: 4px; flex-shrink: 0; }
-
-.status-flow { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
-.status-flow svg { width: 16px; height: 16px; color: var(--gray-500); }

@@ -11,7 +11,6 @@ import './Layout.css';
 const LINKS = [
   { to: '/', label: 'Home', end: true },
   { to: '/mentors', label: 'Find Mentors' },
-  { to: '/how-it-works', label: 'How It Works' },
   { to: '/about', label: 'About' },
   { to: '/contact', label: 'Contact' },
 ];
