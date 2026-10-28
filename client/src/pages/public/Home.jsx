@@ -192,7 +192,7 @@ export default function Home() {
               <ul className="check-list">
                 <li><CheckCircle2 aria-hidden="true" /> Fill in your skills and career interests to get mentor recommendations.</li>
                 <li><CheckCircle2 aria-hidden="true" /> Send a request with clear goals (at least 20 characters).</li>
-                <li><CheckCircle2 aria-hidden="true" /> Once accepted, schedule sessions and message your mentor.</li>
+                <li><CheckCircle2 aria-hidden="true" /> Once accepted, your mentor schedules sessions and you can message them.</li>
                 <li><CheckCircle2 aria-hidden="true" /> When the mentorship is completed, leave honest feedback.</li>
               </ul>
               <Button to="/register" variant="cta" style={{ marginTop: 20 }}>Join as a student <ArrowRight aria-hidden="true" /></Button>

@@ -13,7 +13,9 @@ import SessionFormModal from '../../components/forms/SessionFormModal.jsx';
 
 export default function Sessions() {
   const { user } = useAuth();
-  useDocumentTitle(user.role === 'mentor' ? 'Sessions' : 'My sessions');
+  // Only mentors schedule sessions; students see the sessions their mentor sets up.
+  const isMentor = user.role === 'mentor';
+  useDocumentTitle(isMentor ? 'Sessions' : 'My sessions');
   const [params, setParams] = useSearchParams();
   const [tab, setTab] = useState('upcoming');
   const [creating, setCreating] = useState(false);
@@ -24,38 +26,41 @@ export default function Sessions() {
   // Dashboard links use ?new=1 to open the schedule form directly.
   useEffect(() => {
     if (params.get('new') === '1') {
-      setCreating(true);
+      if (isMentor) setCreating(true);
       setParams({}, { replace: true });
     }
-  }, [params, setParams]);
+  }, [params, setParams, isMentor]);
 
   const mentorships = accepted.data?.requests || [];
   const list = sessions.data?.[tab] || [];
-  const canCreate = mentorships.length > 0;
+  const hasMentorship = mentorships.length > 0;
+  const canCreate = isMentor && hasMentorship;
 
   return (
     <>
       <PageHeader
-        title={user.role === 'mentor' ? 'Sessions' : 'My sessions'}
+        title={isMentor ? 'Sessions' : 'My sessions'}
         subtitle="Upcoming and past mentorship sessions."
         actions={
-          <Button
-            variant="primary"
-            onClick={() => setCreating(true)}
-            disabled={accepted.loading || !canCreate}
-            title={!canCreate ? 'You need an accepted mentorship to schedule a session' : undefined}
-          >
-            <CalendarPlus aria-hidden="true" /> Schedule session
-          </Button>
+          isMentor && (
+            <Button
+              variant="primary"
+              onClick={() => setCreating(true)}
+              disabled={accepted.loading || !canCreate}
+              title={!canCreate ? 'You need an accepted mentorship to schedule a session' : undefined}
+            >
+              <CalendarPlus aria-hidden="true" /> Schedule session
+            </Button>
+          )
         }
       />
-      {!accepted.loading && !canCreate && (
+      {!accepted.loading && (isMentor ? !canCreate : true) && (
         <div className="alert alert-info" style={{ marginBottom: 16 }}>
           <CalendarClock aria-hidden="true" />
           <span>
-            {user.role === 'student'
-              ? 'Sessions can be scheduled once a mentor accepts one of your requests.'
-              : 'Sessions can be scheduled once you accept a student request.'}
+            {isMentor
+              ? 'Sessions can be scheduled once you accept a student request.'
+              : 'Your mentor schedules sessions with you. They will appear here.'}
           </span>
         </div>
       )}
@@ -77,14 +82,22 @@ export default function Sessions() {
         <EmptyState
           icon={tab === 'upcoming' ? CalendarClock : History}
           title={tab === 'upcoming' ? 'No upcoming sessions' : 'No past sessions yet'}
-          message={tab === 'upcoming' ? 'Schedule a session to start working together.' : 'Completed and cancelled sessions will appear here.'}
+          message={
+            tab !== 'upcoming'
+              ? 'Completed and cancelled sessions will appear here.'
+              : isMentor
+                ? 'Schedule a session to start working together.'
+                : 'Your mentor has not scheduled a session yet.'
+          }
           action={
             canCreate ? (
               <Button variant="primary" size="sm" onClick={() => setCreating(true)}>Schedule a session</Button>
-            ) : user.role === 'student' ? (
-              <Button to="/mentors" variant="primary" size="sm">Find a mentor</Button>
-            ) : (
+            ) : isMentor ? (
               <Button to="/mentor/requests" variant="primary" size="sm">Review requests</Button>
+            ) : hasMentorship ? (
+              <Button to="/student/messages" variant="primary" size="sm">Message your mentor</Button>
+            ) : (
+              <Button to="/mentors" variant="primary" size="sm">Find a mentor</Button>
             )
           }
         />
@@ -94,16 +107,18 @@ export default function Sessions() {
         </ul>
       )}
 
-      <SessionFormModal
-        open={creating}
-        onClose={() => setCreating(false)}
-        mentorships={mentorships}
-        viewerRole={user.role}
-        onSaved={() => {
-          setTab('upcoming');
-          sessions.reload({ silent: true });
-        }}
-      />
+      {isMentor && (
+        <SessionFormModal
+          open={creating}
+          onClose={() => setCreating(false)}
+          mentorships={mentorships}
+          viewerRole="mentor"
+          onSaved={() => {
+            setTab('upcoming');
+            sessions.reload({ silent: true });
+          }}
+        />
+      )}
     </>
   );
 }

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { CalendarPlus, Handshake, MessageSquare, Star } from 'lucide-react';
+import { Handshake, MessageSquare, Star } from 'lucide-react';
 import useFetch from '../../hooks/useFetch.js';
 import useDocumentTitle from '../../hooks/useDocumentTitle.js';
 import { requestService } from '../../services/resources.js';
@@ -7,7 +7,6 @@ import { PageHeader } from '../../components/ui/Misc.jsx';
 import { EmptyState, ErrorState, PageLoader } from '../../components/ui/States.jsx';
 import Button from '../../components/ui/Button.jsx';
 import RequestCard from '../../components/dashboard/RequestCard.jsx';
-import SessionFormModal from '../../components/forms/SessionFormModal.jsx';
 import ReviewModal from '../../components/forms/ReviewModal.jsx';
 
 const TABS = [
@@ -21,7 +20,6 @@ const TABS = [
 export default function StudentMentorships() {
   useDocumentTitle('My mentorships');
   const [tab, setTab] = useState('all');
-  const [sessionFor, setSessionFor] = useState(null);
   const [reviewFor, setReviewFor] = useState(null);
   const { data, loading, error, reload } = useFetch(() => requestService.mine(), []);
 
@@ -30,16 +28,12 @@ export default function StudentMentorships() {
   const shown = tab === 'all' ? requests : requests.filter((r) => r.status === tab);
 
   function actionsFor(r) {
+    // Sessions are scheduled by the mentor, so students only get a message button here.
     if (r.status === 'accepted') {
       return (
-        <>
-          <Button size="sm" variant="primary" onClick={() => setSessionFor(r)}>
-            <CalendarPlus aria-hidden="true" /> Schedule session
-          </Button>
-          <Button size="sm" variant="outline" to={`/student/messages?with=${r.mentor?._id}`}>
-            <MessageSquare aria-hidden="true" /> Message
-          </Button>
-        </>
+        <Button size="sm" variant="primary" to={`/student/messages?with=${r.mentor?._id}`}>
+          <MessageSquare aria-hidden="true" /> Message mentor
+        </Button>
       );
     }
     if (r.status === 'completed' && !r.review?.rating) {
@@ -89,12 +83,6 @@ export default function StudentMentorships() {
         </div>
       )}
 
-      <SessionFormModal
-        open={Boolean(sessionFor)}
-        onClose={() => setSessionFor(null)}
-        requestId={sessionFor?._id}
-        viewerRole="student"
-      />
       <ReviewModal open={Boolean(reviewFor)} onClose={() => setReviewFor(null)} request={reviewFor} onSaved={() => reload({ silent: true })} />
     </>
   );

@@ -48,10 +48,10 @@ export default function StudentDashboard() {
                 compact
                 icon={CalendarClock}
                 title="No upcoming sessions"
-                message={acceptedRequests.length ? 'Schedule a session with your mentor.' : 'Once a mentor accepts your request you can schedule sessions.'}
+                message={acceptedRequests.length ? 'Your mentor will schedule sessions with you. They will appear here.' : 'Once a mentor accepts your request, they will schedule sessions with you.'}
                 action={
                   acceptedRequests.length ? (
-                    <Button to="/student/sessions?new=1" variant="primary" size="sm">Schedule a session</Button>
+                    <Button to="/student/messages" variant="primary" size="sm">Message your mentor</Button>
                   ) : (
                     <Button to="/mentors" variant="primary" size="sm">Find a mentor</Button>
                   )

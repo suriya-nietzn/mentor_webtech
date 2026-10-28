@@ -3,13 +3,13 @@ import {
   createSession, mySessions, getSession, updateSession, cancelSession,
   createSessionRules, updateSessionRules,
 } from '../controllers/sessionController.js';
-import { protect } from '../middleware/auth.js';
+import { protect, restrictTo } from '../middleware/auth.js';
 import { validate, validId } from '../middleware/validate.js';
 
 const router = Router();
 
 router.use(protect);
-router.post('/', createSessionRules, validate, createSession);
+router.post('/', restrictTo('mentor'), createSessionRules, validate, createSession);
 router.get('/my', mySessions);
 router.get('/:id', validId(), validate, getSession);
 router.put('/:id', validId(), updateSessionRules, validate, updateSession);

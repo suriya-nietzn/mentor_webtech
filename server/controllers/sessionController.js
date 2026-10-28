@@ -6,8 +6,8 @@ import { ok, created, asyncHandler } from '../utils/respond.js';
 import { textField, cleanText } from '../validators/common.js';
 
 /*
- * Design choice: either participant of an ACCEPTED mentorship can create or reschedule
- * a session, and either can cancel it. Only the mentor can mark it completed, and only
+ * Design choice: only the mentor of an ACCEPTED mentorship can schedule a session.
+ * Either participant can reschedule or cancel it. Only the mentor can mark it completed, and only
  * after its start time. Cancelled or completed sessions are locked (409 on edit).
  */
 
@@ -66,10 +66,8 @@ const isUpcoming = (s) => s.status === 'scheduled' && new Date(s.scheduledAt).ge
 // POST /api/sessions
 export const createSession = asyncHandler(async (req, res) => {
   const { requestId, title, description, scheduledAt, durationMinutes, meetingUrl } = req.body;
-  const request = await MentorshipRequest.findOne({
-    _id: requestId,
-    $or: [{ student: req.user._id }, { mentor: req.user._id }],
-  });
+  // The route only lets mentors in; this also makes sure it is one of *their* mentorships.
+  const request = await MentorshipRequest.findOne({ _id: requestId, mentor: req.user._id });
   if (!request) throw new AppError(404, 'Mentorship not found');
   if (request.status !== 'accepted') {
     throw new AppError(409, 'Sessions can only be scheduled for an accepted mentorship');

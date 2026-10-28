@@ -20,7 +20,7 @@ export const STEPS = [
   {
     icon: Rocket,
     title: 'Learn, grow, and achieve your goals',
-    text: 'Schedule sessions, message your mentor, and track your progress from your dashboard.',
+    text: 'Your mentor schedules sessions with you. Message them and track your progress from your dashboard.',
   },
 ];
 
