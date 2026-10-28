@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import toast from 'react-hot-toast';
-import { CheckCircle2, Clock, Mail, MapPin, Phone, RotateCw } from 'lucide-react';
+import { CheckCircle2, Mail, MapPin, Phone, RotateCw } from 'lucide-react';
 import { Input, Textarea, FormAlert } from '../../components/ui/FormField.jsx';
 import Button from '../../components/ui/Button.jsx';
 import { miscService } from '../../services/resources.js';
@@ -75,9 +75,7 @@ export default function Contact() {
             <ul className="contact-info">
               <li><MapPin aria-hidden="true" /><span><strong>Address</strong>Karunya Nagar, Coimbatore</span></li>
               <li><Mail aria-hidden="true" /><span><strong>Email</strong><a href="mailto:mentorconnet@ben.in">mentorconnet@ben.in</a></span></li>
-              <li><Phone aria-hidden="true" /><span><strong>Phone</strong><a href="tel:+914224502100">+91 422 450 2100</a></span></li>
-              <li><Clock aria-hidden="true" /><span><strong>Response time</strong>Messages are stored in the database and reviewed by the project team.</span></li>
-            </ul>
+              <li><Phone aria-hidden="true" /><span><strong>Phone</strong><a href="tel:+914224502100">+91 422 450 2100</a></span></li>            </ul>
           </div>
 
           <div className="card">
